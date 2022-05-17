@@ -23,17 +23,25 @@ highScores.addEventListener("click", function() {
     hideElements(highScores);
     hideElements(timer);
     hideElements(subheading);
+    hideElements(button3);
+    hideElements(button4);
     revealElements(scoreboard);
     revealElements(button2);
     changeText(title, "High Scores");
     changeText(button1, "Go back");
     changeText(button2, "Clear Scores");
-   
-    // console.log(`highScores is now ${highScores.dataset.state}`);
-    // console.log(`timer is now ${timer.dataset.state}`);
-    // console.log(`subheading is now ${}`)
-    // console.log(`scoreboard is now ${scoreboard.dataset.state}`);
-    // console.log(`button`)
+});
+
+button1.addEventListener("click", function() {
+    hideElements(subheading);
+    revealElements(button2);
+    revealElements(button3);
+    revealElements(button4);
+    changeText(title, "Question number 1 text");
+    changeText(button1, "Answer1");
+    changeText(button2, "Answer2");
+    changeText(button3, "Answer3");
+    changeText(button4, "Answer4");
 });
 
 let hideElements = function(element) {
