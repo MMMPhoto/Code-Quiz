@@ -1,3 +1,40 @@
-body {
-    background-color: green;
+* {
+    background-color: #cbdeb4;
+    font-family: Arial, Helvetica, sans-serif;
+}
+nav {
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    margin: 2%;
+}
+header {
+    text-align: center;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+h1 {
+    font-weight: 800;
+}
+h2 {
+    font-size: 20px;
+    font-weight: 200;
+}
+form {
+    text-align: center;
+}
+.button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.button {
+    text-align: center;
+    width: 20%;    
+    color: #e3ecd9;
+    background-color: #4e5744;
+}
+#button2, #button3, #button4 {
+    display: none;
 }
