@@ -7,34 +7,34 @@
     <title>Max's Code Quiz</title>
     <link rel="stylesheet" href="./assets/css/style.css" >
 </head>
-<body>
+<body data-page="start">
     <nav>
-        <div id="high-scores" data-state="visible" data-page="start">High Scores</div>
-        <div id="timer" data-state="visible" data-page="start">Time: 10:00</div>
+        <div id="high-scores" data-state="visible">High Scores</div>
+        <div id="timer" data-state="visible">Time: 10:00</div>
     </nav>
     <main>
         <header>
             <h1 id="title" data-page="start">Coding Quiz Challenge!</h1>
-            <h2 id="subheading" data-state="visible" data-page="start">Welcome to the Coding Quiz! Try to answer the questions to test your coding knowledge. But beware! There is a timer, and you must finish before the time expires. Answer a question wrong, and you lose time. Run out of time, and you lose! Are you ready?</h2>
+            <h2 id="subheading" data-state="visible">Welcome to the Coding Quiz! Try to answer the questions to test your coding knowledge. But beware! There is a timer, and you must finish before the time expires. Answer a question wrong, and you lose time. Run out of time, and you lose! Are you ready?</h2>
         </header>
-        <div id="scoreboard" data-state="hidden" data-page="start">
+        <div id="scoreboard" data-state="hidden">
             <p>score test</p>
             <p>score test</p>
             <p>score test</p>
             <p>score test</p>
         </div>
         <div class="button-container" data-page="start">
-            <div class="button" id="button1" data-state="visible" data-page="start">Start Quiz</div>
-            <div class="button" id="button2" data-state="visible" data-page="start"></div>
-            <div class="button" id="button3" data-state="visible" data-page="start"></div>
-            <div class="button" id="button4" data-state="visible" data-page="start"></div>
+            <div class="button" id="button1" data-state="visible">Start Quiz</div>
+            <div class="button" id="button2" data-state="visible"></div>
+            <div class="button" id="button3" data-state="visible"></div>
+            <div class="button" id="button4" data-state="visible"></div>
         </div>
-        <form id="enter-score" data-state="hidden" data-page="start">
+        <form id="enter-score" data-state="hidden">
             <label for="initials">Enter your initials:</label>
             <input type="text" id="initials" name="initials">
             <input type="submit" value="submit" class="button">
         </form>
-        <div id="answer" data-state="hidden" data-page="start">Wrong</div>
+        <div id="answer" data-state="hidden">Wrong</div>
     </main>
     <script src="./assets/js/script.js"></script>
 </body>

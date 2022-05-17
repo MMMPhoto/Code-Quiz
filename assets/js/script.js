@@ -13,52 +13,78 @@ let button4 = document.getElementById("button4");
 let enterScore = document.getElementById("enter-score");
 let answer = document.getElementById("answer");
 
-// Listen for click to start
-button1.addEventListener("click",function() {
+// Basic DOM manipulation functions
+let hideElement = function(element) {
+    element.dataset.state = "hidden";
+    element.style.display = "none";
+    console.log(`${element.id} is now ${element.dataset.state}`);
+};
+let changeText = function(element, newText) {
+    element.textContent = newText;
+};
+let revealElement = function(element) {
+    element.dataset.state = "visible";
+    element.style.display = "inline";
+    console.log(`${element.id} is now ${element.dataset.state}`);
+};
 
-});
+// Function to load start page
+let startPage = function() {
+    body.dataset.page = "start";
+    hideElement(scoreboard);
+    hideElement(button2);
+    hideElement(button3);
+    hideElement(button4);    
+    revealElement(highScores);
+    revealElement(timer);
+    revealElement(subheading);
+    changeText(title, "Coding Quiz Challenge!");
+    changeText(button1, "Start");
+    changeText(subheading, "Welcome to the Coding Quiz! Try to answer the questions to test your coding knowledge. But beware! There is a timer, and you must finish before the time expires. Answer a question wrong, and you lose time. Run out of time, and you lose! Are you ready?");
+};
 
-// Listen for click to view high scores
-highScores.addEventListener("click", function() {
-    hideElements(highScores);
-    hideElements(timer);
-    hideElements(subheading);
-    hideElements(button3);
-    hideElements(button4);
-    revealElements(scoreboard);
-    revealElements(button2);
+// Function to show scoreboard
+let showHighScores = function() {
+    body.dataset.page = "high-scores";
+    hideElement(highScores);
+    hideElement(timer);
+    hideElement(subheading);
+    hideElement(button3);
+    hideElement(button4);
+    revealElement(scoreboard);
+    revealElement(button2);
     changeText(title, "High Scores");
     changeText(button1, "Go back");
     changeText(button2, "Clear Scores");
-});
+};
 
-button1.addEventListener("click", function() {
-    hideElements(subheading);
-    revealElements(button2);
-    revealElements(button3);
-    revealElements(button4);
+// Function to play quiz
+let quiz = function() {
+    body.dataset.page = "Quiz1";
+    hideElement(subheading);
+    revealElement(button2);
+    revealElement(button3);
+    revealElement(button4);
     changeText(title, "Question number 1 text");
     changeText(button1, "Answer1");
     changeText(button2, "Answer2");
     changeText(button3, "Answer3");
     changeText(button4, "Answer4");
-});
-
-let hideElements = function(element) {
-    element.dataset.state = "hidden";
-    element.style.display = "none";
-    console.log(`${element.id} is now ${element.dataset.state}`);
 };
 
-let changeText = function(element, newText) {
-    element.textContent = newText;
-}
+// Listen for click to start
+button1.addEventListener("click", function() {
+    if (body.dataset.page === "high-scores") {
+        startPage();
+    } else if (body.dataset.page === "start") {
+        quiz();
+    };
+});
 
-let revealElements = function(element) {
-    element.dataset.state = "visible";
-    element.style.display = "inline";
-    console.log(`${element.id} is now ${element.dataset.state}`);
-}
+// Listen for click to view high scores
+highScores.addEventListener("click", function() {
+    showHighScores();
+});
 
 
 
