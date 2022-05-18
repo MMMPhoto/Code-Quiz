@@ -16,6 +16,7 @@ let answer4 = document.getElementById("answer4");
 let enterScore = document.getElementById("enter-score");
 let answer = document.getElementById("answer");
 let quizPageCounter;
+let answerWrong;
 
 // Build Question object arrays
 const questions = [];
@@ -104,7 +105,7 @@ let quizStart = function() {
 
 // Start timer, run rest of quiz functions within
 let timerActive = function() {
-    let timeLeft = 10;
+    let timeLeft = 59;
     let quizTimer = setInterval(function() {
         if (timeLeft <= 0) {
             changeText(timer, "Time's up!");
@@ -115,6 +116,10 @@ let timerActive = function() {
         } else if (timeLeft <= 9) {
             changeText(timer, `Time: 0:0${timeLeft}`);
         }
+        if (answerWrong) {
+            timeLeft-=15;
+            answerWrong= false;
+        };
         timeLeft--;
         console.log(timeLeft);
     }, 1000);
@@ -197,15 +202,19 @@ goBackButton.addEventListener("click", function() {
 })
 
 answer1.addEventListener("click", function() {
+    answerWrong = true;
     quizChoice();
 });
 answer2.addEventListener("click", function() {
+    answerWrong = true;
     quizChoice();
 });
 answer3.addEventListener("click", function() {
+    answerWrong = false;
     quizChoice();
 });
 answer4.addEventListener("click", function() {
+    answerWrong = true;
     quizChoice();
 });
 
