@@ -15,6 +15,7 @@ let answer3 = document.getElementById("answer3");
 let answer4 = document.getElementById("answer4");
 let enterScore = document.getElementById("enter-score");
 let answer = document.getElementById("answer");
+let quizPageCounter;
 
 // Build Question object arrays
 const questions = [];
@@ -89,6 +90,7 @@ let highScoresPage = function() {
 let quizStart = function() {
     body.dataset.page = "quiz";
     console.log(`Page state is now ${body.dataset.page}`);
+    quizPageCounter = 0;
     hideElement(subheading);
     hideElement(startButton);
     revealElement(highScores);
@@ -102,39 +104,26 @@ let quizStart = function() {
 
 // Start timer, run rest of quiz functions within
 let timerActive = function() {
-    let timeleft = 59;
+    let timeLeft = 10;
     let quizTimer = setInterval(function() {
-        if (timeleft <= 0) {
+        if (timeLeft <= 0) {
             changeText(timer, "Time's up!");
             clearTimeout(quizTimer);
             loserPage();
-        } else if (timeleft > 9) {
-            changeText(timer, `Time: 0:${timeleft}`);
-        } else if (timeleft <= 9) {
-            changeText(timer, `Time: 0:0${timeleft}`);
+        } else if (timeLeft > 9) {
+            changeText(timer, `Time: 0:${timeLeft}`);
+        } else if (timeLeft <= 9) {
+            changeText(timer, `Time: 0:0${timeLeft}`);
         }
-        timeleft--;
+        timeLeft--;
+        console.log(timeLeft);
     }, 1000);
     quizStart();
-    answer1.addEventListener("click", function() {
-        timeleft = timeleft - 15;
-        quizChoice();
-    });
-    answer2.addEventListener("click", function() {
-        timeleft = timeleft - 15;
-        quizChoice();
-    });
-    answer3.addEventListener("click", function() {
-        quizChoice();
-    });
-    answer4.addEventListener("click", function() {
-        timeleft = timeleft - 15;
-        quizChoice();
-    });
 };
 
 // Load new quiz pages
-let quizPageNew = function () {
+let quizPageNew = function() {
+    console.log(`quizPageCounter value is ${quizPageCounter}`);
     changeText(title, questions[quizPageCounter].text);
     changeText(answer1, questions[quizPageCounter].answer1);
     changeText(answer2, questions[quizPageCounter].answer2);
@@ -149,7 +138,7 @@ let quizChoice = function() {
     if (quizPageCounter < questions.length) {
         quizPageNew();
     } else {
-        donePage();
+        loserPage();
     };
 };
 
@@ -196,7 +185,6 @@ let loserPage = function() {
 
 // Listen for clicks to start quiz
 startButton.addEventListener("click", function(){
-    quizPageCounter = 0;
     timerActive();
 });
 
@@ -207,6 +195,19 @@ highScores.addEventListener("click", function() {
 goBackButton.addEventListener("click", function() {
     startPage();
 })
+
+answer1.addEventListener("click", function() {
+    quizChoice();
+});
+answer2.addEventListener("click", function() {
+    quizChoice();
+});
+answer3.addEventListener("click", function() {
+    quizChoice();
+});
+answer4.addEventListener("click", function() {
+    quizChoice();
+});
 
 // buttonContainer.addEventListener("click", function(event) {
 //     element = event.target;
