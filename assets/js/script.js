@@ -4,14 +4,18 @@ let timer = document.getElementById("timer");
 let title = document.getElementById("title");
 let subheading = document.getElementById("subheading");
 let scoreboard = document.getElementById("scoreboard");
-let buttonConatiner = document.getElementsByClassName("button-container");
+let buttonContainer = document.getElementsByClassName("button-container");
 let button = document.getElementsByClassName("button");
-let button1 = document.getElementById("button1");
-let button2 = document.getElementById("button2");
-let button3 = document.getElementById("button3");
-let button4 = document.getElementById("button4");
+let startButton = document.getElementById("start-button");
+let goBackButton = document.getElementById("back-button");
+let clearScores = document.getElementById("clear-scores");
+let answer1 = document.getElementById("answer1");
+let answer2 = document.getElementById("answer2");
+let answer3 = document.getElementById("answer3");
+let answer4 = document.getElementById("answer4");
 let enterScore = document.getElementById("enter-score");
 let answer = document.getElementById("answer");
+var quizPageCounter = 0;
 
 // Build Question object arrays
 const questions = [];
@@ -32,7 +36,7 @@ console.log(questions);
 let hideElement = function(element) {
     element.dataset.state = "hidden";
     element.style.display = "none";
-    console.log(`${element.id} is now ${element.dataset.state}`);
+    // console.log(`${element.id} is now ${element.dataset.state}`);
 };
 let changeText = function(element, newText) {
     element.textContent = newText;
@@ -40,68 +44,133 @@ let changeText = function(element, newText) {
 let revealElement = function(element) {
     element.dataset.state = "visible";
     element.style.display = "inline";
-    console.log(`${element.id} is now ${element.dataset.state}`);
+    // console.log(`${element.id} is now ${element.dataset.state}`);
 };
 
 // Function to load start page
 let startPage = function() {
     body.dataset.page = "start";
+    console.log(`Page state is now ${body.dataset.page}`);
     hideElement(scoreboard);
-    hideElement(button2);
-    hideElement(button3);
-    hideElement(button4);    
+    hideElement(goBackButton);
+    hideElement(clearScores);
+    hideElement(answer1);
+    hideElement(answer2);
+    hideElement(answer3);
+    hideElement(answer4);    
     revealElement(highScores);
     revealElement(timer);
     revealElement(subheading);
+    revealElement(startButton);
     changeText(title, "Coding Quiz Challenge!");
-    changeText(button1, "Start");
+    changeText(startButton, "Start");
     changeText(subheading, "Welcome to the Coding Quiz! Try to answer the questions to test your coding knowledge. But beware! There is a timer, and you must finish before the time expires. Answer a question wrong, and you lose time. Run out of time, and you lose! Are you ready?");
 };
 
 // Function to show scoreboard
-let showHighScores = function() {
+let highScoresPage = function() {
     body.dataset.page = "high-scores";
+    console.log(`Page state is now ${body.dataset.page}`);
     hideElement(highScores);
     hideElement(timer);
     hideElement(subheading);
-    hideElement(button3);
-    hideElement(button4);
+    hideElement(startButton);
+    hideElement(answer1);
+    hideElement(answer2);
+    hideElement(answer3);
+    hideElement(answer4);
     revealElement(scoreboard);
-    revealElement(button2);
+    revealElement(goBackButton);
+    revealElement(clearScores);
     changeText(title, "High Scores");
-    changeText(button1, "Go back");
-    changeText(button2, "Clear Scores");
+
 };
 
-// Function to play quiz
-let quiz = function() {
+// Function to start quiz
+let quizStart = function() {
     // insert start timer here
-    body.dataset.page = "Quiz1";
+    body.dataset.page = "quiz";
+    console.log(`Page state is now ${body.dataset.page}`);
     hideElement(subheading);
-    revealElement(button2);
-    revealElement(button3);
-    revealElement(button4);
-    // insert for loop for each question here
-    changeText(title, questions[0].text);
-    changeText(button1, questions[0].answer1);
-    changeText(button2, questions[0].answer2);
-    changeText(button3, questions[0].answer3);
-    changeText(button4, questions[0].answer4);
+    hideElement(startButton);
+    revealElement(answer1);
+    revealElement(answer2);
+    revealElement(answer3);
+    revealElement(answer4);
+    quizPageNew();
 };
 
-// Listen for click to start
-button1.addEventListener("click", function() {
-    if (body.dataset.page === "high-scores") {
-        startPage();
-    } else if (body.dataset.page === "start") {
-        quiz();
+let quizPageNew = function () {
+    changeText(title, questions[quizPageCounter].text);
+    changeText(answer1, questions[quizPageCounter].answer1);
+    changeText(answer2, questions[quizPageCounter].answer2);
+    changeText(answer3, questions[quizPageCounter].answer3);
+    changeText(answer4, questions[quizPageCounter].answer4);        
+    // }  
+};
+
+let quizChoice = function() {
+    quizPageCounter += 1;
+    if (quizPageCounter < questions.length) {
+        quizPageNew();
+    } else {
+        donePage();
     };
+};
+
+let donePage = function() {
+    body.dataset.page = "done";
+    console.log(`Page state is now ${body.dataset.page}`);
+    hideElement(scoreboard);
+    hideElement(goBackButton);
+    hideElement(clearScores);
+    hideElement(answer1);
+    hideElement(answer2);
+    hideElement(answer3);
+    hideElement(answer4);    
+    hideElement(highScores);
+    hideElement(timer);
+    hideElement(startButton);
+    revealElement(subheading);
+    revealElement(enterScore);
+    changeText(title, "All done!");
+    changeText(subheading, "Please enter your score");
+};
+
+// Listen for clicks to start quiz or answer
+startButton.addEventListener("click", function(){
+    quizStart();
+});
+answer1.addEventListener("click", function() {
+    quizChoice();
+});
+answer2.addEventListener("click", function() {
+    quizChoice();
+});
+answer3.addEventListener("click", function() {
+    quizChoice();
+});
+answer4.addEventListener("click", function() {
+    quizChoice();
 });
 
-// Listen for click to view high scores
+// Listen for click to view high scores and go back
 highScores.addEventListener("click", function() {
-    showHighScores();
+    highScoresPage();
 });
+goBackButton.addEventListener("click", function() {
+    startPage();
+})
 
+// buttonContainer.addEventListener("click", function(event) {
+//     element = event.target;
+//     if (body.dataset.page === "high-scores") {
+//         startPage();
+//     } else if (body.dataset.page === "start") {
+//         quizPage();
+//     } else if (body.dataset.page === "quiz" ) {
+//         quizChoice();
+//     };
+// });
 
 

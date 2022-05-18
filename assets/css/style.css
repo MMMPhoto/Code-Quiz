@@ -38,7 +38,7 @@ header {
     background-color: #4e5744;
     padding: 2%;
 }
-#button2, #button3, #button4 {
+#back-button, #clear-scores, #answer1, #answer2, #answer3, #answer4 {
     display: none;
 }
 #enter-score {
