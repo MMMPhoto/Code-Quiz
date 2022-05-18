@@ -15,7 +15,6 @@ let answer3 = document.getElementById("answer3");
 let answer4 = document.getElementById("answer4");
 let enterScore = document.getElementById("enter-score");
 let answer = document.getElementById("answer");
-var quizPageCounter = 0;
 
 // Build Question object arrays
 const questions = [];
@@ -47,7 +46,7 @@ let revealElement = function(element) {
     // console.log(`${element.id} is now ${element.dataset.state}`);
 };
 
-// Function to load start page
+// Load start page
 let startPage = function() {
     body.dataset.page = "start";
     console.log(`Page state is now ${body.dataset.page}`);
@@ -67,7 +66,7 @@ let startPage = function() {
     changeText(subheading, "Welcome to the Coding Quiz! Try to answer the questions to test your coding knowledge. But beware! There is a timer, and you must finish before the time expires. Answer a question wrong, and you lose time. Run out of time, and you lose! Are you ready?");
 };
 
-// Function to show scoreboard
+// Show scoreboard
 let highScoresPage = function() {
     body.dataset.page = "high-scores";
     console.log(`Page state is now ${body.dataset.page}`);
@@ -86,13 +85,14 @@ let highScoresPage = function() {
 
 };
 
-// Function to start quiz
+// Load first quiz page
 let quizStart = function() {
-    // insert start timer here
     body.dataset.page = "quiz";
     console.log(`Page state is now ${body.dataset.page}`);
     hideElement(subheading);
     hideElement(startButton);
+    revealElement(highScores);
+    revealElement(timer);
     revealElement(answer1);
     revealElement(answer2);
     revealElement(answer3);
@@ -100,6 +100,40 @@ let quizStart = function() {
     quizPageNew();
 };
 
+// Start timer, run rest of quiz functions within
+let timerActive = function() {
+    let timeleft = 59;
+    let quizTimer = setInterval(function() {
+        if (timeleft <= 0) {
+            changeText(timer, "Time's up!");
+            clearTimeout(quizTimer);
+            loserPage();
+        } else if (timeleft > 9) {
+            changeText(timer, `Time: 0:${timeleft}`);
+        } else if (timeleft <= 9) {
+            changeText(timer, `Time: 0:0${timeleft}`);
+        }
+        timeleft--;
+    }, 1000);
+    quizStart();
+    answer1.addEventListener("click", function() {
+        timeleft = timeleft - 15;
+        quizChoice();
+    });
+    answer2.addEventListener("click", function() {
+        timeleft = timeleft - 15;
+        quizChoice();
+    });
+    answer3.addEventListener("click", function() {
+        quizChoice();
+    });
+    answer4.addEventListener("click", function() {
+        timeleft = timeleft - 15;
+        quizChoice();
+    });
+};
+
+// Load new quiz pages
 let quizPageNew = function () {
     changeText(title, questions[quizPageCounter].text);
     changeText(answer1, questions[quizPageCounter].answer1);
@@ -109,6 +143,7 @@ let quizPageNew = function () {
     // }  
 };
 
+// Iterate quiz pages
 let quizChoice = function() {
     quizPageCounter += 1;
     if (quizPageCounter < questions.length) {
@@ -118,6 +153,7 @@ let quizChoice = function() {
     };
 };
 
+// Load done page
 let donePage = function() {
     body.dataset.page = "done";
     console.log(`Page state is now ${body.dataset.page}`);
@@ -137,21 +173,31 @@ let donePage = function() {
     changeText(subheading, "Please enter your score");
 };
 
-// Listen for clicks to start quiz or answer
+// Load loser page
+let loserPage = function() {
+    body.dataset.page = "loser";
+    console.log(`Page state is now ${body.dataset.page}`);
+    hideElement(scoreboard);
+    hideElement(goBackButton);
+    hideElement(clearScores);
+    hideElement(answer1);
+    hideElement(answer2);
+    hideElement(answer3);
+    hideElement(answer4);    
+    hideElement(highScores);
+    hideElement(timer);
+    hideElement(enterScore);
+    revealElement(startButton);
+    revealElement(subheading);
+    changeText(title, "You ran out of time!");
+    changeText(subheading, "Would you like to play again?");
+    changeText(startButton, "Play again");
+}
+
+// Listen for clicks to start quiz
 startButton.addEventListener("click", function(){
-    quizStart();
-});
-answer1.addEventListener("click", function() {
-    quizChoice();
-});
-answer2.addEventListener("click", function() {
-    quizChoice();
-});
-answer3.addEventListener("click", function() {
-    quizChoice();
-});
-answer4.addEventListener("click", function() {
-    quizChoice();
+    quizPageCounter = 0;
+    timerActive();
 });
 
 // Listen for click to view high scores and go back
