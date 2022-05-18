@@ -13,6 +13,21 @@ let button4 = document.getElementById("button4");
 let enterScore = document.getElementById("enter-score");
 let answer = document.getElementById("answer");
 
+// Build Question object arrays
+const questions = [];
+for (let i = 0; i < 5; i++) {
+    questions[i] = {
+            questionNumber: `question${i+1}`,
+            text: `This is question ${i+1}`,
+            answer1: "answer1 text",
+            answer2: "answer2 text",
+            answer3: "answer3 text",
+            answer4: "answer4 text",
+            correct: "answer3"
+        }
+    };
+console.log(questions);
+
 // Basic DOM manipulation functions
 let hideElement = function(element) {
     element.dataset.state = "hidden";
@@ -60,16 +75,18 @@ let showHighScores = function() {
 
 // Function to play quiz
 let quiz = function() {
+    // insert start timer here
     body.dataset.page = "Quiz1";
     hideElement(subheading);
     revealElement(button2);
     revealElement(button3);
     revealElement(button4);
-    changeText(title, "Question number 1 text");
-    changeText(button1, "Answer1");
-    changeText(button2, "Answer2");
-    changeText(button3, "Answer3");
-    changeText(button4, "Answer4");
+    // insert for loop for each question here
+    changeText(title, questions[0].text);
+    changeText(button1, questions[0].answer1);
+    changeText(button2, questions[0].answer2);
+    changeText(button3, questions[0].answer3);
+    changeText(button4, questions[0].answer4);
 };
 
 // Listen for click to start
