@@ -14,22 +14,18 @@ let answer2 = document.getElementById("answer2");
 let answer3 = document.getElementById("answer3");
 let answer4 = document.getElementById("answer4");
 let enterScore = document.getElementById("enter-score");
+let initials = document.getElementById("initials");
 let answer = document.getElementById("answer");
 let quizPageCounter;
 let answerWrong;
+let score;
+let highScoreTally = {};
+let submitButton = document.getElementById("submit");
+let scoresTable;
 
 // Build Question object arrays
 const questions = [];
-for (let i = 0; i < 5; i++) {
-    questions[i] = {
-            text: `This is question ${i+1}`,
-            answer1: "answer1 text",
-            answer2: "answer2 text",
-            answer3: "answer3 text",
-            answer4: "answer4 text",
-            correct: []
-        }
-    };
+
     questions[0] = {
         text: "A Boolean is a data type that stores what?",
         answer1: "Numbers and Letters",
@@ -37,36 +33,39 @@ for (let i = 0; i < 5; i++) {
         answer3: "A Value of True or False",
         answer4: "A Random Number",
         correct: ["wrong", "wrong", "right", "wrong"]
-    }
-    // questions[1] = {
-    //     text: `This is question ${i+1}`,
-    //     answer1: "answer1 text",
-    //     answer2: "answer2 text",
-    //     answer3: "answer3 text",
-    //     answer4: "answer4 text",
-    //     correct: "answer3"
-    // }questions[2] = {
-    //     text: `This is question ${i+1}`,
-    //     answer1: "answer1 text",
-    //     answer2: "answer2 text",
-    //     answer3: "answer3 text",
-    //     answer4: "answer4 text",
-    //     correct: "answer3"
-    // }questions[3] = {
-    //     text: `This is question ${i+1}`,
-    //     answer1: "answer1 text",
-    //     answer2: "answer2 text",
-    //     answer3: "answer3 text",
-    //     answer4: "answer4 text",
-    //     correct: "answer3"
-    // }questions[4] = {
-    //     text: `This is question ${i+1}`,
-    //     answer1: "answer1 text",
-    //     answer2: "answer2 text",
-    //     answer3: "answer3 text",
-    //     answer4: "answer4 text",
-    //     correct: "answer3"
-    // }
+    };
+    questions[1] = {
+        text: "How do you signify that a variable is an Array?",
+        answer1: "End the variable name with the word 'Array'",
+        answer2: "Use Brackets [] to enclose the values",
+        answer3: "Separate values by semicolons",
+        answer4: "Use Single Quotes '' around the values",
+        correct: ["wrong", "right", "wrong", "wrong"]
+    };
+    questions[2] = {
+        text: "Question 3",
+        answer1: "answer1 text",
+        answer2: "answer2 text",
+        answer3: "answer3 text",
+        answer4: "answer4 text",
+        correct: ["wrong", "wrong", "wrong", "right"]
+    };
+    questions[3] = {
+        text: `This is question 4`,
+        answer1: "answer1 text",
+        answer2: "answer2 text",
+        answer3: "answer3 text",
+        answer4: "answer4 text",
+        correct: ["wrong", "wrong", "right", "wrong"]
+    };
+    questions[4] = {
+        text: `This is question 5`,
+        answer1: "answer1 text",
+        answer2: "answer2 text",
+        answer3: "answer3 text",
+        answer4: "answer4 text",
+        correct: ["right", "wrong", "wrong", "wrong"]
+    };
     
 
 
@@ -93,6 +92,10 @@ let revealElement = function(element) {
 let startPage = function() {
     body.dataset.page = "start";
     console.log(`Page state is now ${body.dataset.page}`);
+    changeText(title, "Coding Quiz Challenge!");
+    changeText(startButton, "Start");
+    changeText(timer, "Time: 1:00");
+    changeText(subheading, "Welcome to the Coding Quiz! Try to answer the questions to test your coding knowledge. But beware! There is a timer, and you must finish before the time expires. Answer a question wrong, and you lose time. Run out of time, and you lose! Are you ready?");
     hideElement(scoreboard);
     hideElement(goBackButton);
     hideElement(clearScores);
@@ -104,15 +107,13 @@ let startPage = function() {
     revealElement(timer);
     revealElement(subheading);
     revealElement(startButton);
-    changeText(title, "Coding Quiz Challenge!");
-    changeText(startButton, "Start");
-    changeText(subheading, "Welcome to the Coding Quiz! Try to answer the questions to test your coding knowledge. But beware! There is a timer, and you must finish before the time expires. Answer a question wrong, and you lose time. Run out of time, and you lose! Are you ready?");
 };
 
 // Show scoreboard
 let highScoresPage = function() {
     body.dataset.page = "high-scores";
     console.log(`Page state is now ${body.dataset.page}`);
+    changeText(title, "High Scores");
     hideElement(highScores);
     hideElement(timer);
     hideElement(subheading);
@@ -121,11 +122,15 @@ let highScoresPage = function() {
     hideElement(answer2);
     hideElement(answer3);
     hideElement(answer4);
+    hideElement(enterScore);
     revealElement(scoreboard);
     revealElement(goBackButton);
     revealElement(clearScores);
-    changeText(title, "High Scores");
-
+    displayScores();
+    function displayScores() {
+        scoresTable = JSON.parse(localStorage.getItem(`${initials.value} had a score of ${score}`));  
+        changeText(scoreboard, `${scoresTable.initials} ${score}`);        
+    };
 };
 
 // Load first quiz page
@@ -148,6 +153,11 @@ let quizStart = function() {
 let timerActive = function() {
     let timeLeft = 59;
     let quizTimer = setInterval(function() {
+        if (quizPageCounter === questions.length) {
+            score = timeLeft;
+            clearTimeout(quizTimer);
+            donePage();
+        }
         if (timeLeft <= 0) {
             changeText(timer, "Time's up!");
             clearTimeout(quizTimer);
@@ -156,11 +166,14 @@ let timerActive = function() {
             changeText(timer, `Time: 0:${timeLeft}`);
         } else if (timeLeft <= 9) {
             changeText(timer, `Time: 0:0${timeLeft}`);
-        }
+        };
         if (answerWrong) {
             timeLeft-=15;
             answerWrong= false;
         };
+        highScores.addEventListener("click", function() {
+            clearTimeout(quizTimer);
+        });
         timeLeft--;
         console.log(timeLeft);
     }, 1000);
@@ -182,8 +195,6 @@ let quizChoice = function() {
     quizPageCounter += 1;
     if (quizPageCounter < questions.length) {
         quizPageNew();
-    } else {
-        loserPage();
     };
 };
 
@@ -191,6 +202,8 @@ let quizChoice = function() {
 let donePage = function() {
     body.dataset.page = "done";
     console.log(`Page state is now ${body.dataset.page}`);
+    changeText(title, "All done!");
+    changeText(subheading, `Your Score is ${score}`);
     hideElement(scoreboard);
     hideElement(goBackButton);
     hideElement(clearScores);
@@ -203,14 +216,24 @@ let donePage = function() {
     hideElement(startButton);
     revealElement(subheading);
     revealElement(enterScore);
-    changeText(title, "All done!");
-    changeText(subheading, "Please enter your score");
+    submitButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        highScoreTally = {
+            initials : initials.value,
+            score : score
+        };
+        localStorage.setItem(`${initials.value} had a score of ${score}`, JSON.stringify(highScoreTally));
+        highScoresPage();
+    });
 };
 
 // Load loser page
 let loserPage = function() {
     body.dataset.page = "loser";
     console.log(`Page state is now ${body.dataset.page}`);
+    changeText(title, "You ran out of time!");
+    changeText(subheading, "Would you like to play again?");
+    changeText(startButton, "Play again");
     hideElement(scoreboard);
     hideElement(goBackButton);
     hideElement(clearScores);
@@ -223,9 +246,6 @@ let loserPage = function() {
     hideElement(enterScore);
     revealElement(startButton);
     revealElement(subheading);
-    changeText(title, "You ran out of time!");
-    changeText(subheading, "Would you like to play again?");
-    changeText(startButton, "Play again");
 }
 
 // Listen for clicks to start quiz
