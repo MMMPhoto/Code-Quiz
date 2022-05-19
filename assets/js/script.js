@@ -4,7 +4,6 @@ let timer = document.getElementById("timer");
 let title = document.getElementById("title");
 let subheading = document.getElementById("subheading");
 let scoreboard = document.getElementById("scoreboard");
-let scoreBoardTable;
 let buttonContainer = document.getElementsByClassName("button-container");
 let button = document.getElementsByClassName("button");
 let startButton = document.getElementById("start-button");
@@ -24,7 +23,7 @@ let highScoreTally = [];
 localStorage.setItem("allHighScores", JSON.stringify(highScoreTally));
 let submitButton = document.getElementById("submit");
 let scoresTable;
-let newHTML
+let newHTML;
 // Build Question object arrays
 const questions = [];
 
@@ -133,11 +132,28 @@ let highScoresPage = function() {
         highScoreTally = []; 
         highScoreTally = JSON.parse(localStorage.getItem("allHighScores")) || [];
         console.log(highScoreTally);
-        scoreBoardTable = document.getElementById("score-table").innerHTML = "<p>" + highScoreTally[0].initials + "  :  " + highScoreTally[0].score + "</p>";
+        var table = document.createElement('table'), tr, td, row, cell;
+        for (i = 0; i < highScoreTally.length; i++) {
+            tr = document.createElement('tr');
+            for (j = 0; j < 1; j++) {
+                td = document.createElement('td');
+                tr.appendChild(td);
+                td.innerHTML = "<td>" + highScoreTally[i].initials + "</td><td>" + highScoreTally[i].score + "</td>";
+            }
+            table.appendChild(tr);
+        }
+        document.getElementById('scoreboard').appendChild(table);
+
+
+
+
+
         // for (var i = 0; i < highScoreTally.length; i++) {
-        //     scoreBoardTableContent += "<tr><td>" + highScoreTally[i].initials + "</td><td>" + highScoreTally[i].score + "</td></tr>";
+        //     let newChild;
+        //     scoreBoardTable.appendChild(newChild);
+        //     scoreBoardTable.lastChild.innerHTML = 
         // }
-        // console.log(scoreBoardTableContent);
+        // // console.log(scoreBoardTableContent);
         // newHTML = scoreBoardTableContent;
     };
 };
@@ -225,8 +241,11 @@ let donePage = function() {
     hideElement(startButton);
     revealElement(subheading);
     revealElement(enterScore);
+    submitButton.disabled = false;
     submitButton.addEventListener("click", function(event) {
         event.preventDefault();
+        submitButton.disabled = true;
+        console.log(`submit button disabled: ${submitButton.disabled}`);
         let newScore = {
             initials : initials.value,
             score : score
