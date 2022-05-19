@@ -4,6 +4,7 @@ let timer = document.getElementById("timer");
 let title = document.getElementById("title");
 let subheading = document.getElementById("subheading");
 let scoreboard = document.getElementById("scoreboard");
+let scoreBoardTable;
 let buttonContainer = document.getElementsByClassName("button-container");
 let button = document.getElementsByClassName("button");
 let startButton = document.getElementById("start-button");
@@ -19,10 +20,11 @@ let answer = document.getElementById("answer");
 let quizPageCounter;
 let answerWrong;
 let score;
-let highScoreTally = {};
+let highScoreTally = []; 
+localStorage.setItem("allHighScores", JSON.stringify(highScoreTally));
 let submitButton = document.getElementById("submit");
 let scoresTable;
-
+let newHTML
 // Build Question object arrays
 const questions = [];
 
@@ -128,8 +130,15 @@ let highScoresPage = function() {
     revealElement(clearScores);
     displayScores();
     function displayScores() {
-        scoresTable = JSON.parse(localStorage.getItem(`${initials.value} had a score of ${score}`));  
-        changeText(scoreboard, `${scoresTable.initials} ${score}`);        
+        highScoreTally = []; 
+        highScoreTally = JSON.parse(localStorage.getItem("allHighScores")) || [];
+        console.log(highScoreTally);
+        scoreBoardTable = document.getElementById("score-table").innerHTML = "<p>" + highScoreTally[0].initials + "  :  " + highScoreTally[0].score + "</p>";
+        // for (var i = 0; i < highScoreTally.length; i++) {
+        //     scoreBoardTableContent += "<tr><td>" + highScoreTally[i].initials + "</td><td>" + highScoreTally[i].score + "</td></tr>";
+        // }
+        // console.log(scoreBoardTableContent);
+        // newHTML = scoreBoardTableContent;
     };
 };
 
@@ -218,11 +227,15 @@ let donePage = function() {
     revealElement(enterScore);
     submitButton.addEventListener("click", function(event) {
         event.preventDefault();
-        highScoreTally = {
+        let newScore = {
             initials : initials.value,
             score : score
         };
-        localStorage.setItem(`${initials.value} had a score of ${score}`, JSON.stringify(highScoreTally));
+        highScoreTally = [];
+        highScoreTally = JSON.parse(localStorage.getItem("allHighScores")) || [];
+        highScoreTally.push(newScore);
+        console.log(highScoreTally);      
+        localStorage.setItem("allHighScores", JSON.stringify(highScoreTally));
         highScoresPage();
     });
 };
