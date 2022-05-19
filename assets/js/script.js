@@ -22,15 +22,56 @@ let answerWrong;
 const questions = [];
 for (let i = 0; i < 5; i++) {
     questions[i] = {
-            questionNumber: `question${i+1}`,
             text: `This is question ${i+1}`,
             answer1: "answer1 text",
             answer2: "answer2 text",
             answer3: "answer3 text",
             answer4: "answer4 text",
-            correct: "answer3"
+            correct: []
         }
     };
+    questions[0] = {
+        text: "A Boolean is a data type that stores what?",
+        answer1: "Numbers and Letters",
+        answer2: "A Series of Strings",
+        answer3: "A Value of True or False",
+        answer4: "A Random Number",
+        correct: ["wrong", "wrong", "right", "wrong"]
+    }
+    // questions[1] = {
+    //     text: `This is question ${i+1}`,
+    //     answer1: "answer1 text",
+    //     answer2: "answer2 text",
+    //     answer3: "answer3 text",
+    //     answer4: "answer4 text",
+    //     correct: "answer3"
+    // }questions[2] = {
+    //     text: `This is question ${i+1}`,
+    //     answer1: "answer1 text",
+    //     answer2: "answer2 text",
+    //     answer3: "answer3 text",
+    //     answer4: "answer4 text",
+    //     correct: "answer3"
+    // }questions[3] = {
+    //     text: `This is question ${i+1}`,
+    //     answer1: "answer1 text",
+    //     answer2: "answer2 text",
+    //     answer3: "answer3 text",
+    //     answer4: "answer4 text",
+    //     correct: "answer3"
+    // }questions[4] = {
+    //     text: `This is question ${i+1}`,
+    //     answer1: "answer1 text",
+    //     answer2: "answer2 text",
+    //     answer3: "answer3 text",
+    //     answer4: "answer4 text",
+    //     correct: "answer3"
+    // }
+    
+
+
+
+
 console.log(questions);
 
 // Basic DOM manipulation functions
@@ -130,11 +171,10 @@ let timerActive = function() {
 let quizPageNew = function() {
     console.log(`quizPageCounter value is ${quizPageCounter}`);
     changeText(title, questions[quizPageCounter].text);
-    changeText(answer1, questions[quizPageCounter].answer1);
-    changeText(answer2, questions[quizPageCounter].answer2);
-    changeText(answer3, questions[quizPageCounter].answer3);
-    changeText(answer4, questions[quizPageCounter].answer4);        
-    // }  
+    changeText(answer1, `1. ${questions[quizPageCounter].answer1}`);
+    changeText(answer2, `2. ${questions[quizPageCounter].answer2}`);
+    changeText(answer3, `3. ${questions[quizPageCounter].answer3}`);
+    changeText(answer4, `4. ${questions[quizPageCounter].answer4}`);
 };
 
 // Iterate quiz pages
@@ -201,32 +241,43 @@ goBackButton.addEventListener("click", function() {
     startPage();
 })
 
+// Listen for click on answers
 answer1.addEventListener("click", function() {
-    answerWrong = true;
+    console.log(questions[quizPageCounter].correct[0]);
+    if (questions[quizPageCounter].correct[0] == "right") {
+        answerWrong = false;        
+    } else {
+        answerWrong = true;
+    };
     quizChoice();
 });
 answer2.addEventListener("click", function() {
-    answerWrong = true;
+    console.log(questions[quizPageCounter].correct[1]);
+    if (questions[quizPageCounter].correct[1] == "right") {
+        answerWrong = false;        
+    } else {
+        answerWrong = true;
+    };
     quizChoice();
 });
 answer3.addEventListener("click", function() {
-    answerWrong = false;
+    console.log(questions[quizPageCounter].correct[2]);
+    if (questions[quizPageCounter].correct[2] == "right") {
+        answerWrong = false;        
+    } else {
+        answerWrong = true;
+    };
+    console.log(answerWrong);
     quizChoice();
 });
 answer4.addEventListener("click", function() {
-    answerWrong = true;
+    console.log(questions[quizPageCounter].correct[3]);
+    if (questions[quizPageCounter].correct[3] == "right") {
+        answerWrong = false;        
+    } else {
+        answerWrong = true;
+    };
     quizChoice();
 });
-
-// buttonContainer.addEventListener("click", function(event) {
-//     element = event.target;
-//     if (body.dataset.page === "high-scores") {
-//         startPage();
-//     } else if (body.dataset.page === "start") {
-//         quizPage();
-//     } else if (body.dataset.page === "quiz" ) {
-//         quizChoice();
-//     };
-// });
 
 
