@@ -39,7 +39,7 @@ const questions = [];
     questions[1] = {
         text: "How do you signify that a variable is an Array?",
         answer1: "End the variable name with the word 'Array'",
-        answer2: "Use Brackets [] to enclose the values",
+        answer2: "Use Brackets [ ] to enclose the values",
         answer3: "Separate values by semicolons",
         answer4: "Use Single Quotes '' around the values",
         correct: ["wrong", "right", "wrong", "wrong"]
@@ -53,7 +53,7 @@ const questions = [];
         correct: ["wrong", "wrong", "wrong", "right"]
     };
     questions[3] = {
-        text: `This is question 4`,
+        text: "This is question 4",
         answer1: "answer1 text",
         answer2: "answer2 text",
         answer3: "answer3 text",
@@ -61,7 +61,7 @@ const questions = [];
         correct: ["wrong", "wrong", "right", "wrong"]
     };
     questions[4] = {
-        text: `This is question 5`,
+        text: "This is question 5",
         answer1: "answer1 text",
         answer2: "answer2 text",
         answer3: "answer3 text",
@@ -150,6 +150,8 @@ let quizStart = function() {
     hideMany(hideArray);
     var revealArray = [highScores, timer, answerContainer];
     revealMany(revealArray);
+    answerContainer.style.display = "flex";
+    title.style.textAlign = "left";
     quizPageNew();
 };
 
@@ -206,6 +208,7 @@ let quizChoice = function() {
 let donePage = function() {
     body.dataset.page = "done";
     console.log(`Page state is now ${body.dataset.page}`);
+    title.style.textAlign = "center";
     changeText(title, "All done!");
     changeText(subheading, `Your Score is ${score}`);
     var hideArray = [scoreboard, goBackButton, clearScores, answerContainer, highScores, timer, startButton];
@@ -232,6 +235,7 @@ let donePage = function() {
 let loserPage = function() {
     body.dataset.page = "loser";
     console.log(`Page state is now ${body.dataset.page}`);
+    title.style.textAlign = "center";
     changeText(title, "You ran out of time!");
     changeText(subheading, "Would you like to play again?");
     changeText(startButton, "Play again");

@@ -9,6 +9,8 @@ nav {
     margin: 2%;
 }
 main {
+    display: flex;
+    flex-direction: column;
     margin: 8%;
 }
 header {
@@ -36,7 +38,16 @@ header {
     width: 40%;    
     color: #e3ecd9;
     background-color: #4e5744;
+    border: #353b2e;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
     padding: 2%;
+    margin: 2%;
+}
+.button:hover {
+    color: #f5ffeb;
+    background-color: #7a8969;
 }
 #back-button, #clear-scores {
     display: none;
@@ -46,7 +57,13 @@ header {
     text-align: center;
 }
 #answer-container {
+    flex-basis: 100%;
     display: none;
+    flex-wrap: wrap;
+}
+.answer-button {
+    flex-basis: 80%;
+    text-align: left;
 }
 #answer {
     display: none;
