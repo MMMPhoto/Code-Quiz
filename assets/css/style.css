@@ -38,12 +38,15 @@ header {
     background-color: #4e5744;
     padding: 2%;
 }
-#back-button, #clear-scores, #answer1, #answer2, #answer3, #answer4 {
+#back-button, #clear-scores {
     display: none;
 }
 #enter-score {
     display: none;
     text-align: center;
+}
+#answer-container {
+    display: none;
 }
 #answer {
     display: none;

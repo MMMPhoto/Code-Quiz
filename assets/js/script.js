@@ -9,6 +9,7 @@ let button = document.getElementsByClassName("button");
 let startButton = document.getElementById("start-button");
 let goBackButton = document.getElementById("back-button");
 let clearScores = document.getElementById("clear-scores");
+let answerContainer = document.getElementById("answer-container");
 let answer1 = document.getElementById("answer1");
 let answer2 = document.getElementById("answer2");
 let answer3 = document.getElementById("answer3");
@@ -24,9 +25,9 @@ localStorage.setItem("allHighScores", JSON.stringify(highScoreTally));
 let submitButton = document.getElementById("submit");
 let scoresTable;
 let newHTML;
+
 // Build Question object arrays
 const questions = [];
-
     questions[0] = {
         text: "A Boolean is a data type that stores what?",
         answer1: "Numbers and Letters",
@@ -67,27 +68,34 @@ const questions = [];
         answer4: "answer4 text",
         correct: ["right", "wrong", "wrong", "wrong"]
     };
-    
-
-
-
-
 console.log(questions);
 
 // Basic DOM manipulation functions
+let changeText = function(element, newText) {
+    element.textContent = newText;
+};
 let hideElement = function(element) {
     element.dataset.state = "hidden";
     element.style.display = "none";
     // console.log(`${element.id} is now ${element.dataset.state}`);
-};
-let changeText = function(element, newText) {
-    element.textContent = newText;
 };
 let revealElement = function(element) {
     element.dataset.state = "visible";
     element.style.display = "inline";
     // console.log(`${element.id} is now ${element.dataset.state}`);
 };
+// Hide multiple elements
+let hideMany = function(hideArray) {
+    for (i = 0; i < hideArray.length; i++) {
+        hideElement(hideArray[i]);
+    } 
+}
+// Reveal multiple elements
+let revealMany = function(revealArray) {
+    for (i = 0; i < revealArray.length; i++) {
+        revealElement(revealArray[i]);
+    } 
+}
 
 // Load start page
 let startPage = function() {
@@ -97,17 +105,10 @@ let startPage = function() {
     changeText(startButton, "Start");
     changeText(timer, "Time: 1:00");
     changeText(subheading, "Welcome to the Coding Quiz! Try to answer the questions to test your coding knowledge. But beware! There is a timer, and you must finish before the time expires. Answer a question wrong, and you lose time. Run out of time, and you lose! Are you ready?");
-    hideElement(scoreboard);
-    hideElement(goBackButton);
-    hideElement(clearScores);
-    hideElement(answer1);
-    hideElement(answer2);
-    hideElement(answer3);
-    hideElement(answer4);    
-    revealElement(highScores);
-    revealElement(timer);
-    revealElement(subheading);
-    revealElement(startButton);
+    var hideArray = [scoreboard, goBackButton, clearScores, answerContainer];
+    hideMany(hideArray);
+    var revealArray = [highScores, timer, subheading, startButton];
+    revealMany(revealArray);
 };
 
 // Show scoreboard
@@ -115,24 +116,18 @@ let highScoresPage = function() {
     body.dataset.page = "high-scores";
     console.log(`Page state is now ${body.dataset.page}`);
     changeText(title, "High Scores");
-    hideElement(highScores);
-    hideElement(timer);
-    hideElement(subheading);
-    hideElement(startButton);
-    hideElement(answer1);
-    hideElement(answer2);
-    hideElement(answer3);
-    hideElement(answer4);
-    hideElement(enterScore);
-    revealElement(scoreboard);
-    revealElement(goBackButton);
-    revealElement(clearScores);
+    var hideArray = [highScores, timer, subheading, startButton, answerContainer, enterScore];
+    hideMany(hideArray);
+    var revealArray = [scoreboard, goBackButton, clearScores];
+    revealMany(revealArray);
+
+    // Pull high scores from local storage
     displayScores();
     function displayScores() {
         highScoreTally = []; 
         highScoreTally = JSON.parse(localStorage.getItem("allHighScores")) || [];
         console.log(highScoreTally);
-        var table = document.createElement('table'), tr, td, row, cell;
+        var table = document.createElement('table'), tr, td;
         for (i = 0; i < highScoreTally.length; i++) {
             tr = document.createElement('tr');
             for (j = 0; j < 1; j++) {
@@ -143,18 +138,6 @@ let highScoresPage = function() {
             table.appendChild(tr);
         }
         document.getElementById('scoreboard').appendChild(table);
-
-
-
-
-
-        // for (var i = 0; i < highScoreTally.length; i++) {
-        //     let newChild;
-        //     scoreBoardTable.appendChild(newChild);
-        //     scoreBoardTable.lastChild.innerHTML = 
-        // }
-        // // console.log(scoreBoardTableContent);
-        // newHTML = scoreBoardTableContent;
     };
 };
 
@@ -163,14 +146,10 @@ let quizStart = function() {
     body.dataset.page = "quiz";
     console.log(`Page state is now ${body.dataset.page}`);
     quizPageCounter = 0;
-    hideElement(subheading);
-    hideElement(startButton);
-    revealElement(highScores);
-    revealElement(timer);
-    revealElement(answer1);
-    revealElement(answer2);
-    revealElement(answer3);
-    revealElement(answer4);
+    var hideArray = [subheading, startButton];
+    hideMany(hideArray);
+    var revealArray = [highScores, timer, answerContainer];
+    revealMany(revealArray);
     quizPageNew();
 };
 
@@ -229,22 +208,12 @@ let donePage = function() {
     console.log(`Page state is now ${body.dataset.page}`);
     changeText(title, "All done!");
     changeText(subheading, `Your Score is ${score}`);
-    hideElement(scoreboard);
-    hideElement(goBackButton);
-    hideElement(clearScores);
-    hideElement(answer1);
-    hideElement(answer2);
-    hideElement(answer3);
-    hideElement(answer4);    
-    hideElement(highScores);
-    hideElement(timer);
-    hideElement(startButton);
-    revealElement(subheading);
-    revealElement(enterScore);
-    submitButton.disabled = false;
+    var hideArray = [scoreboard, goBackButton, clearScores, answerContainer, highScores, timer, startButton];
+    hideMany(hideArray);
+    var revealArray = [subheading, enterScore];
+    revealMany(revealArray);
     submitButton.addEventListener("click", function(event) {
         event.preventDefault();
-        submitButton.disabled = true;
         console.log(`submit button disabled: ${submitButton.disabled}`);
         let newScore = {
             initials : initials.value,
@@ -266,18 +235,10 @@ let loserPage = function() {
     changeText(title, "You ran out of time!");
     changeText(subheading, "Would you like to play again?");
     changeText(startButton, "Play again");
-    hideElement(scoreboard);
-    hideElement(goBackButton);
-    hideElement(clearScores);
-    hideElement(answer1);
-    hideElement(answer2);
-    hideElement(answer3);
-    hideElement(answer4);    
-    hideElement(highScores);
-    hideElement(timer);
-    hideElement(enterScore);
-    revealElement(startButton);
-    revealElement(subheading);
+    var hideArray = [scoreboard, goBackButton, clearScores, answerContainer, highScores, timer, enterScore];
+    hideMany(hideArray);
+    var revealArray = [startButton, subheading];
+    revealMany(revealArray);
 }
 
 // Listen for clicks to start quiz
@@ -331,5 +292,3 @@ answer4.addEventListener("click", function() {
     };
     quizChoice();
 });
-
-
