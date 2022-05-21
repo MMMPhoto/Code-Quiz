@@ -88,11 +88,17 @@ header {
 
 /* Tablet Screen Size */
 @media screen and (min-width: 481px) {
+    main {
+        margin-top: 2%;;
+    }
     nav {
         font-size: 30px;
+        margin-bottom: 0px;
     }
     #title {
         font-size: 45px;
+        margin-top: 2%;
+        margin-bottom: 2%;
     }
     #subheading {
         font-size: 30px;
@@ -116,26 +122,29 @@ header {
         margin-top: 40px;
     }
 }
-/* 
 /* Small Laptop Screen Size */
-/* @media screen and (min-width: 769px) {
-    nav {
-        font-size: 35px;
+@media screen and (min-width: 769px) {
+    main {
+        margin-top: 0px;
     }
     #title {
-        font-size: 50px;
+        margin-top: 1%;
+        margin-bottom: 1%;
     }
     #subheading {
         font-size: 32px;
+        margin-top: 0px;
     }
     #scoreboard {
         font-size: 35px;
     }
     .button {
         font-size: 30px;
+        margin-top: 1%;
+        margin-bottom: 1%;
     }
     #real-answer {
-        font-size: 40px;
+        font-size: 38px;
     }
     #enter-score {
         font-size: 30px;
@@ -146,44 +155,4 @@ header {
     #submit{
         margin-top: 55px;
     }
-} */ */
-/* Desktop Screen Size
-@media screen and (min-width: 1025px) {
-    nav {
-        font-size: 35px;
-    }
-    #title {
-        font-size: 55px;
-    }
-    #subheading {
-        font-size: px;
-    }
-    #scoreboard {
-        font-size: 35px;
-    }
-    .button {
-        font-size: 30px;
-    }
-    #real-answer {
-        font-size: 40px;
-    }
-    #enter-score {
-        font-size: 32px;
-    }
-    #initials {
-        font-size: 30px;
-    }
-    #submit{
-        margin-top: 55px;
-    }
-    
-
-
 }
-
-/* Large Screen Size */
-/* @media screen and (min-width: 1201px) {
-    
-
-
-} */ */

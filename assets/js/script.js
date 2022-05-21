@@ -56,7 +56,7 @@ const questions = [];
         correct: ["wrong", "wrong", "wrong", "right"]
     };
     questions[3] = {
-        text: "A For Loop does what",
+        text: "What does a For loop do?",
         answer1: "Allows you to declare a variable for use in a function",
         answer2: "Is simply a type of function available for use",
         answer3: "Create an interation until a specfic value is met",
