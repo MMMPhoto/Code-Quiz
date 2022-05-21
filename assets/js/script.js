@@ -33,42 +33,42 @@ let wrongRightDelay;
 const questions = [];
     questions[0] = {
         text: "A Boolean is a data type that stores what?",
-        answer1: "Numbers and Letters",
-        answer2: "A Series of Strings",
-        answer3: "A Value of True or False",
-        answer4: "A Random Number",
+        answer1: "Numbers and letters",
+        answer2: "A series of strings",
+        answer3: "A value of 'true' or 'false'",
+        answer4: "A random number",
         correct: ["wrong", "wrong", "right", "wrong"]
     };
     questions[1] = {
         text: "How do you signify that a variable is an Array?",
         answer1: "End the variable name with the word 'Array'",
-        answer2: "Use Brackets [ ] to enclose the values",
+        answer2: "Use brackets [ ] to enclose the values",
         answer3: "Separate values by semicolons",
-        answer4: "Use Single Quotes '' around the values",
+        answer4: "Use single quotes '' around the values",
         correct: ["wrong", "right", "wrong", "wrong"]
     };
     questions[2] = {
-        text: "Question 3",
-        answer1: "answer1 text",
-        answer2: "answer2 text",
-        answer3: "answer3 text",
-        answer4: "answer4 text",
+        text: "Which of the following is a type of variable?",
+        answer1: "Numbers",
+        answer2: "Strings",
+        answer3: "Arrays",
+        answer4: "All of the above",
         correct: ["wrong", "wrong", "wrong", "right"]
     };
     questions[3] = {
-        text: "This is question 4",
-        answer1: "answer1 text",
-        answer2: "answer2 text",
-        answer3: "answer3 text",
-        answer4: "answer4 text",
+        text: "A For Loop does what",
+        answer1: "Allows you to declare a variable for use in a function",
+        answer2: "Is simply a type of function available for use",
+        answer3: "Create an interation until a specfic value is met",
+        answer4: "Loops the word 'for' over and over",
         correct: ["wrong", "wrong", "right", "wrong"]
     };
     questions[4] = {
-        text: "This is question 5",
-        answer1: "answer1 text",
-        answer2: "answer2 text",
-        answer3: "answer3 text",
-        answer4: "answer4 text",
+        text: "What is String Concatenation?",
+        answer1: "The process of appending a string to another string",
+        answer2: "Shouting the code out loud so you can hear how it sounds",
+        answer3: "Converting a string to a number",
+        answer4: "The action of placing yourself in opposition to a cat",
         correct: ["right", "wrong", "wrong", "wrong"]
     };
 console.log(questions);
