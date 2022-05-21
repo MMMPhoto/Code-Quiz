@@ -16,7 +16,7 @@ let answer3 = document.getElementById("answer3");
 let answer4 = document.getElementById("answer4");
 let enterScore = document.getElementById("enter-score");
 let initials = document.getElementById("initials");
-let answer = document.getElementById("answer");
+let realAnswer = document.getElementById("real-answer");
 let quizPageCounter;
 let answerWrong;
 let score;
@@ -25,6 +25,9 @@ localStorage.setItem("allHighScores", JSON.stringify(highScoreTally));
 let submitButton = document.getElementById("submit");
 let scoresTable;
 let newHTML;
+let display;
+let timeLeft;
+let wrongRightDelay;
 
 // Build Question object arrays
 const questions = [];
@@ -157,29 +160,32 @@ let quizStart = function() {
 
 // Start timer, run rest of quiz functions within
 let timerActive = function() {
-    let timeLeft = 59;
+    timeLeft = 59;
     let quizTimer = setInterval(function() {
         if (quizPageCounter === questions.length) {
             score = timeLeft;
             clearTimeout(quizTimer);
+            setTimeout(function(){}, 1000);
+            hideElement(realAnswer);
             donePage();
         }
         if (timeLeft <= 0) {
             changeText(timer, "Time's up!");
             clearTimeout(quizTimer);
+            setTimeout(function(){}, 3000);
+            hideElement(realAnswer);
             loserPage();
         } else if (timeLeft > 9) {
             changeText(timer, `Time: 0:${timeLeft}`);
         } else if (timeLeft <= 9) {
             changeText(timer, `Time: 0:0${timeLeft}`);
         };
-        if (answerWrong) {
-            timeLeft-=15;
-            answerWrong= false;
-        };
         highScores.addEventListener("click", function() {
             clearTimeout(quizTimer);
         });
+        if (wrongRightDelay > timeLeft) {
+            hideElement(realAnswer);
+        };
         timeLeft--;
         console.log(timeLeft);
     }, 1000);
@@ -198,6 +204,7 @@ let quizPageNew = function() {
 
 // Iterate quiz pages
 let quizChoice = function() {
+    wrongRightDelay = timeLeft;
     quizPageCounter += 1;
     if (quizPageCounter < questions.length) {
         quizPageNew();
@@ -239,9 +246,9 @@ let loserPage = function() {
     changeText(title, "You ran out of time!");
     changeText(subheading, "Would you like to play again?");
     changeText(startButton, "Play again");
-    var hideArray = [scoreboard, goBackButton, clearScores, answerContainer, highScores, timer, enterScore];
+    let hideArray = [scoreboard, goBackButton, clearScores, answerContainer, highScores, timer, enterScore];
     hideMany(hideArray);
-    var revealArray = [startButton, subheading];
+    let revealArray = [startButton, subheading];
     revealMany(revealArray);
 }
 
@@ -262,37 +269,55 @@ goBackButton.addEventListener("click", function() {
 answer1.addEventListener("click", function() {
     console.log(questions[quizPageCounter].correct[0]);
     if (questions[quizPageCounter].correct[0] == "right") {
-        answerWrong = false;        
+        changeText(realAnswer, "Wrong!");
+        // answerWrong = false;        
     } else {
-        answerWrong = true;
+        changeText(realAnswer, "Wrong!");
+        timeLeft-=15;
+        // answerWrong = true;
     };
+    revealElement(realAnswer);
     quizChoice();
+
 });
 answer2.addEventListener("click", function() {
     console.log(questions[quizPageCounter].correct[1]);
     if (questions[quizPageCounter].correct[1] == "right") {
-        answerWrong = false;        
+        changeText(realAnswer, "Right!");
+        // answerWrong = false;        
     } else {
-        answerWrong = true;
+        changeText(realAnswer, "Wrong!");
+        timeLeft-=15;
+        // answerWrong = true;
     };
+    revealElement(realAnswer);
     quizChoice();
 });
 answer3.addEventListener("click", function() {
     console.log(questions[quizPageCounter].correct[2]);
     if (questions[quizPageCounter].correct[2] == "right") {
-        answerWrong = false;        
+        changeText(realAnswer, "Right!");
+        // answerWrong = false;        
     } else {
-        answerWrong = true;
+        changeText(realAnswer, "Wrong!");
+        timeLeft-=15;
+        // answerWrong = true;
     };
     console.log(answerWrong);
+    revealElement(realAnswer);
     quizChoice();
 });
 answer4.addEventListener("click", function() {
     console.log(questions[quizPageCounter].correct[3]);
+    
     if (questions[quizPageCounter].correct[3] == "right") {
-        answerWrong = false;        
+        changeText(realAnswer, "Right!");
+        // answerWrong = false;
     } else {
-        answerWrong = true;
+        changeText(realAnswer, "Wrong!");
+        timeLeft-=15;
+        // answerWrong = true;
     };
+    revealElement(realAnswer);
     quizChoice();
 });

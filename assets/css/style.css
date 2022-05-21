@@ -65,6 +65,6 @@ header {
     flex-basis: 80%;
     text-align: left;
 }
-#answer {
+#real-answer {
     display: none;
 }
