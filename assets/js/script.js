@@ -223,20 +223,6 @@ let donePage = function() {
     hideMany(hideArray);
     var revealArray = [subheading, enterScore];
     revealMany(revealArray);
-    submitButton.addEventListener("click", function(event) {
-        event.preventDefault();
-        console.log(`submit button disabled: ${submitButton.disabled}`);
-        let newScore = {
-            initials : initials.value,
-            score : score
-        };
-        highScoreTally = [];
-        highScoreTally = JSON.parse(localStorage.getItem("allHighScores")) || [];
-        highScoreTally.push(newScore);
-        console.log(highScoreTally);      
-        localStorage.setItem("allHighScores", JSON.stringify(highScoreTally));
-        highScoresPage();
-    });
 };
 
 // Load loser page
@@ -251,7 +237,7 @@ let loserPage = function() {
     hideMany(hideArray);
     let revealArray = [startButton, subheading];
     revealMany(revealArray);
-}
+};
 
 // Listen for clicks to start quiz
 startButton.addEventListener("click", function(){
@@ -264,13 +250,13 @@ highScores.addEventListener("click", function() {
 });
 goBackButton.addEventListener("click", function() {
     startPage();
-})
+});
 
 // Listen for click on answers
 answer1.addEventListener("click", function() {
     console.log(questions[quizPageCounter].correct[0]);
     if (questions[quizPageCounter].correct[0] == "right") {
-        changeText(realAnswer, "Wrong!");
+        changeText(realAnswer, "Right!");
         // answerWrong = false;        
     } else {
         changeText(realAnswer, "Wrong!");
@@ -321,4 +307,20 @@ answer4.addEventListener("click", function() {
     };
     revealElement(realAnswer);
     quizChoice();
+});
+
+// Listen for click to enter score
+submitButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    console.log(`submit button disabled: ${submitButton.disabled}`);
+    let newScore = {
+        initials : initials.value,
+        score : score
+    };
+    highScoreTally = [];
+    highScoreTally = JSON.parse(localStorage.getItem("allHighScores")) || [];
+    highScoreTally.push(newScore);
+    console.log(highScoreTally);      
+    localStorage.setItem("allHighScores", JSON.stringify(highScoreTally));
+    highScoresPage();
 });
