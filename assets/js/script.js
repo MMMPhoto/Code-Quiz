@@ -84,7 +84,7 @@ let hideElement = function(element) {
 };
 let revealElement = function(element) {
     element.dataset.state = "visible";
-    element.style.display = "inline";
+    element.style.display = "block";
     // console.log(`${element.id} is now ${element.dataset.state}`);
 };
 // Hide multiple elements
@@ -172,7 +172,7 @@ let timerActive = function() {
         if (timeLeft <= 0) {
             changeText(timer, "Time's up!");
             clearTimeout(quizTimer);
-            setTimeout(function(){}, 3000);
+            setTimeout(function(){}, 4000);
             hideElement(realAnswer);
             loserPage();
         } else if (timeLeft > 9) {
@@ -216,8 +216,9 @@ let donePage = function() {
     body.dataset.page = "done";
     console.log(`Page state is now ${body.dataset.page}`);
     title.style.textAlign = "center";
-    changeText(title, "All done!");
+    changeText(title, "All Done!");
     changeText(subheading, `Your Score is ${score}`);
+    initials.value = "";
     var hideArray = [scoreboard, goBackButton, clearScores, answerContainer, highScores, timer, startButton];
     hideMany(hideArray);
     var revealArray = [subheading, enterScore];
@@ -243,7 +244,7 @@ let loserPage = function() {
     body.dataset.page = "loser";
     console.log(`Page state is now ${body.dataset.page}`);
     title.style.textAlign = "center";
-    changeText(title, "You ran out of time!");
+    changeText(title, "You Ran Out of Time!");
     changeText(subheading, "Would you like to play again?");
     changeText(startButton, "Play again");
     let hideArray = [scoreboard, goBackButton, clearScores, answerContainer, highScores, timer, enterScore];
