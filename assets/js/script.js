@@ -114,7 +114,7 @@ let startPage = function() {
     revealMany(revealArray);
 };
 
-// Show scoreboard
+// Load high scores page
 let highScoresPage = function() {
     body.dataset.page = "high-scores";
     console.log(`Page state is now ${body.dataset.page}`);
@@ -123,40 +123,35 @@ let highScoresPage = function() {
     hideMany(hideArray);
     var revealArray = [scoreboard, goBackButton, clearScores];
     revealMany(revealArray);
-
-    // Pull high scores from local storage
     displayScores();
-    function displayScores() {
-        highScoreTally = []; 
-        highScoreTally = JSON.parse(localStorage.getItem("allHighScores")) || [];
-        console.log(highScoreTally);
-        var table = document.createElement('table'), tr, td;
-        for (i = 0; i < highScoreTally.length; i++) {
-            tr = document.createElement('tr');
-            for (j = 0; j < 1; j++) {
-                td = document.createElement('td');
-                tr.appendChild(td);
-                td.innerHTML = "<td>" + highScoreTally[i].initials + "</td><td>" + highScoreTally[i].score + "</td>";
-            }
-            table.appendChild(tr);
-        }
-        document.getElementById('scoreboard').appendChild(table);
-    };
 };
 
-// Load first quiz page
-let quizStart = function() {
-    body.dataset.page = "quiz";
-    console.log(`Page state is now ${body.dataset.page}`);
-    quizPageCounter = 0;
-    var hideArray = [subheading, startButton];
-    hideMany(hideArray);
-    var revealArray = [highScores, timer, answerContainer];
-    revealMany(revealArray);
-    answerContainer.style.display = "flex";
-    title.style.textAlign = "left";
-    quizPageNew();
+// Pull high scores from local storage
+let displayScores = function() {
+    highScoreTally = []; 
+    highScoreTally = JSON.parse(localStorage.getItem("allHighScores")) || [];
+    console.log(highScoreTally);
+    scoreboard.innerHTML = "";
+    var table = document.createElement('table'), tr, td;
+    for (i = 0; i < highScoreTally.length; i++) {
+        tr = document.createElement('tr');
+        for (j = 0; j < 1; j++) {
+            td = document.createElement('td');
+            tr.appendChild(td);
+            td.innerHTML = "<td>" + highScoreTally[i].initials + "</td><td>" + highScoreTally[i].score + "</td>";
+        }
+        table.appendChild(tr);
+    }
+    document.getElementById('scoreboard').appendChild(table);
 };
+
+// Clear scores from local storage
+let clearLocalStorage = function() {
+    highScoreTally = [];
+    console.log(highScoreTally);
+    localStorage.setItem("allHighScores", JSON.stringify(highScoreTally));
+};
+
 
 // Start timer, run rest of quiz functions within
 let timerActive = function() {
@@ -190,6 +185,20 @@ let timerActive = function() {
         console.log(timeLeft);
     }, 1000);
     quizStart();
+};
+
+// Load first quiz page
+let quizStart = function() {
+    body.dataset.page = "quiz";
+    console.log(`Page state is now ${body.dataset.page}`);
+    quizPageCounter = 0;
+    var hideArray = [subheading, startButton];
+    hideMany(hideArray);
+    var revealArray = [highScores, timer, answerContainer];
+    revealMany(revealArray);
+    answerContainer.style.display = "flex";
+    title.style.textAlign = "left";
+    quizPageNew();
 };
 
 // Load new quiz pages
@@ -239,18 +248,22 @@ let loserPage = function() {
     revealMany(revealArray);
 };
 
-// Listen for clicks to start quiz
+// Listen for click to start quiz
 startButton.addEventListener("click", function(){
     timerActive();
 });
 
-// Listen for click to view high scores and go back
+// Listen for click to view high scores, clear scores, go back
 highScores.addEventListener("click", function() {
     highScoresPage();
 });
 goBackButton.addEventListener("click", function() {
     startPage();
 });
+clearScores.addEventListener("click", function() {
+    clearLocalStorage();
+    displayScores();
+})
 
 // Listen for click on answers
 answer1.addEventListener("click", function() {
@@ -265,7 +278,6 @@ answer1.addEventListener("click", function() {
     };
     revealElement(realAnswer);
     quizChoice();
-
 });
 answer2.addEventListener("click", function() {
     console.log(questions[quizPageCounter].correct[1]);
@@ -313,6 +325,8 @@ answer4.addEventListener("click", function() {
 submitButton.addEventListener("click", function(event) {
     event.preventDefault();
     console.log(`submit button disabled: ${submitButton.disabled}`);
+
+
     let newScore = {
         initials : initials.value,
         score : score
@@ -320,7 +334,7 @@ submitButton.addEventListener("click", function(event) {
     highScoreTally = [];
     highScoreTally = JSON.parse(localStorage.getItem("allHighScores")) || [];
     highScoreTally.push(newScore);
-    console.log(highScoreTally);      
+    console.log(highScoreTally);
     localStorage.setItem("allHighScores", JSON.stringify(highScoreTally));
     highScoresPage();
 });
