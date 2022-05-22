@@ -80,12 +80,10 @@ let changeText = function(element, newText) {
 let hideElement = function(element) {
     element.dataset.state = "hidden";
     element.style.display = "none";
-    // console.log(`${element.id} is now ${element.dataset.state}`);
 };
 let revealElement = function(element) {
     element.dataset.state = "visible";
     element.style.display = "block";
-    // console.log(`${element.id} is now ${element.dataset.state}`);
 };
 // Hide multiple elements
 let hideMany = function(hideArray) {
@@ -138,7 +136,10 @@ let displayScores = function() {
         for (j = 0; j < 1; j++) {
             td = document.createElement('td');
             tr.appendChild(td);
-            td.innerHTML = "<td>" + highScoreTally[i].initials + "</td><td>" + highScoreTally[i].score + "</td>";
+            td.innerHTML = highScoreTally[i].initials;
+            td = document.createElement('td');
+            tr.appendChild(td);
+            td.innerHTML = highScoreTally[i].score;
         }
         table.appendChild(tr);
     }
@@ -160,7 +161,7 @@ let timerActive = function() {
         if (quizPageCounter === questions.length) {
             score = timeLeft;
             clearTimeout(quizTimer);
-            setTimeout(function(){}, 1000);
+            setTimeout(function(){}, 4000);
             hideElement(realAnswer);
             donePage();
         }
