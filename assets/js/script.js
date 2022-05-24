@@ -16,16 +16,12 @@ let answer3 = document.getElementById("answer3");
 let answer4 = document.getElementById("answer4");
 let enterScore = document.getElementById("enter-score");
 let initials = document.getElementById("initials");
+let submitButton = document.getElementById("submit");
 let realAnswer = document.getElementById("real-answer");
 let quizPageCounter;
-let answerWrong;
 let score;
 let highScoreTally = []; 
 localStorage.setItem("allHighScores", JSON.stringify(highScoreTally));
-let submitButton = document.getElementById("submit");
-let scoresTable;
-let newHTML;
-let display;
 let timeLeft;
 let wrongRightDelay;
 
@@ -71,7 +67,6 @@ const questions = [];
         answer4: "The action of placing yourself in opposition to a cat",
         correct: ["right", "wrong", "wrong", "wrong"]
     };
-console.log(questions);
 
 // Basic DOM manipulation functions
 let changeText = function(element, newText) {
@@ -90,18 +85,17 @@ let hideMany = function(hideArray) {
     for (i = 0; i < hideArray.length; i++) {
         hideElement(hideArray[i]);
     } 
-}
+};
 // Reveal multiple elements
 let revealMany = function(revealArray) {
     for (i = 0; i < revealArray.length; i++) {
         revealElement(revealArray[i]);
     } 
-}
+};
 
 // Load start page
 let startPage = function() {
     body.dataset.page = "start";
-    console.log(`Page state is now ${body.dataset.page}`);
     changeText(title, "Coding Quiz Challenge!");
     changeText(startButton, "Start");
     changeText(timer, "Time: 1:00");
@@ -115,7 +109,6 @@ let startPage = function() {
 // Load high scores page
 let highScoresPage = function() {
     body.dataset.page = "high-scores";
-    console.log(`Page state is now ${body.dataset.page}`);
     changeText(title, "High Scores");
     var hideArray = [highScores, timer, subheading, startButton, answerContainer, enterScore];
     hideMany(hideArray);
@@ -128,19 +121,16 @@ let highScoresPage = function() {
 let displayScores = function() {
     highScoreTally = []; 
     highScoreTally = JSON.parse(localStorage.getItem("allHighScores")) || [];
-    console.log(highScoreTally);
     scoreboard.innerHTML = "";
-    var table = document.createElement('table'), tr, td;
+    var table = document.createElement('table');
     for (i = 0; i < highScoreTally.length; i++) {
         tr = document.createElement('tr');
-        for (j = 0; j < 1; j++) {
-            td = document.createElement('td');
-            tr.appendChild(td);
-            td.innerHTML = highScoreTally[i].initials;
-            td = document.createElement('td');
-            tr.appendChild(td);
-            td.innerHTML = highScoreTally[i].score;
-        }
+        td = document.createElement('td');
+        tr.appendChild(td);
+        td.innerHTML = highScoreTally[i].initials;
+        td = document.createElement('td');
+        tr.appendChild(td);
+        td.innerHTML = highScoreTally[i].score;
         table.appendChild(tr);
     }
     document.getElementById('scoreboard').appendChild(table);
@@ -149,10 +139,8 @@ let displayScores = function() {
 // Clear scores from local storage
 let clearLocalStorage = function() {
     highScoreTally = [];
-    console.log(highScoreTally);
     localStorage.setItem("allHighScores", JSON.stringify(highScoreTally));
 };
-
 
 // Start timer, run rest of quiz functions within
 let timerActive = function() {
@@ -166,7 +154,6 @@ let timerActive = function() {
             donePage();
         }
         if (timeLeft <= 0) {
-            changeText(timer, "Time's up!");
             clearTimeout(quizTimer);
             setTimeout(function(){}, 4000);
             hideElement(realAnswer);
@@ -183,7 +170,6 @@ let timerActive = function() {
             hideElement(realAnswer);
         };
         timeLeft--;
-        console.log(timeLeft);
     }, 1000);
     quizStart();
 };
@@ -191,7 +177,6 @@ let timerActive = function() {
 // Load first quiz page
 let quizStart = function() {
     body.dataset.page = "quiz";
-    console.log(`Page state is now ${body.dataset.page}`);
     quizPageCounter = 0;
     var hideArray = [subheading, startButton];
     hideMany(hideArray);
@@ -204,7 +189,6 @@ let quizStart = function() {
 
 // Load new quiz pages
 let quizPageNew = function() {
-    console.log(`quizPageCounter value is ${quizPageCounter}`);
     changeText(title, questions[quizPageCounter].text);
     changeText(answer1, `1. ${questions[quizPageCounter].answer1}`);
     changeText(answer2, `2. ${questions[quizPageCounter].answer2}`);
@@ -224,7 +208,6 @@ let quizChoice = function() {
 // Load done page
 let donePage = function() {
     body.dataset.page = "done";
-    console.log(`Page state is now ${body.dataset.page}`);
     title.style.textAlign = "center";
     changeText(title, "All Done!");
     changeText(subheading, `Your Score is ${score}`);
@@ -238,7 +221,6 @@ let donePage = function() {
 // Load loser page
 let loserPage = function() {
     body.dataset.page = "loser";
-    console.log(`Page state is now ${body.dataset.page}`);
     title.style.textAlign = "center";
     changeText(title, "You Ran Out of Time!");
     changeText(subheading, "Would you like to play again?");
@@ -268,55 +250,41 @@ clearScores.addEventListener("click", function() {
 
 // Listen for click on answers
 answer1.addEventListener("click", function() {
-    console.log(questions[quizPageCounter].correct[0]);
     if (questions[quizPageCounter].correct[0] == "right") {
         changeText(realAnswer, "Right!");
-        // answerWrong = false;        
     } else {
         changeText(realAnswer, "Wrong!");
         timeLeft-=15;
-        // answerWrong = true;
     };
     revealElement(realAnswer);
     quizChoice();
 });
 answer2.addEventListener("click", function() {
-    console.log(questions[quizPageCounter].correct[1]);
     if (questions[quizPageCounter].correct[1] == "right") {
         changeText(realAnswer, "Right!");
-        // answerWrong = false;        
     } else {
         changeText(realAnswer, "Wrong!");
         timeLeft-=15;
-        // answerWrong = true;
     };
     revealElement(realAnswer);
     quizChoice();
 });
 answer3.addEventListener("click", function() {
-    console.log(questions[quizPageCounter].correct[2]);
     if (questions[quizPageCounter].correct[2] == "right") {
         changeText(realAnswer, "Right!");
-        // answerWrong = false;        
     } else {
         changeText(realAnswer, "Wrong!");
         timeLeft-=15;
-        // answerWrong = true;
     };
-    console.log(answerWrong);
     revealElement(realAnswer);
     quizChoice();
 });
-answer4.addEventListener("click", function() {
-    console.log(questions[quizPageCounter].correct[3]);
-    
+answer4.addEventListener("click", function() {    
     if (questions[quizPageCounter].correct[3] == "right") {
         changeText(realAnswer, "Right!");
-        // answerWrong = false;
     } else {
         changeText(realAnswer, "Wrong!");
         timeLeft-=15;
-        // answerWrong = true;
     };
     revealElement(realAnswer);
     quizChoice();
@@ -325,9 +293,6 @@ answer4.addEventListener("click", function() {
 // Listen for click to enter score
 submitButton.addEventListener("click", function(event) {
     event.preventDefault();
-    console.log(`submit button disabled: ${submitButton.disabled}`);
-
-
     let newScore = {
         initials : initials.value,
         score : score
@@ -335,7 +300,6 @@ submitButton.addEventListener("click", function(event) {
     highScoreTally = [];
     highScoreTally = JSON.parse(localStorage.getItem("allHighScores")) || [];
     highScoreTally.push(newScore);
-    console.log(highScoreTally);
     localStorage.setItem("allHighScores", JSON.stringify(highScoreTally));
     highScoresPage();
 });
